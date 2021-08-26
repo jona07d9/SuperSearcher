@@ -1,0 +1,52 @@
+﻿<Grid 
+    x:Class="SuperSearcherWPF.Views.Search"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:SuperSearcherWPF.Views"
+    xmlns:viewmodels="clr-namespace:SuperSearcherWPF.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewModel}"
+    mc:Ignorable="d" 
+    d:DesignWidth="800"
+    d:DesignHeight="450" 
+>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="auto"/>
+        <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Label Grid.Row="0" Style="{StaticResource Title}">Søg</Label>
+
+    <Label Grid.Row="1" Margin="0,0,0,0">Søgetekst</Label>
+    <Grid Grid.Row="2" Margin="0,0,0,8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Column="0" Margin="0,0,4,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding SearchCommand}"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Button Grid.Column="1" Margin="4,0,0,0" Command="{Binding SearchCommand}">Søg</Button>
+    </Grid>
+
+    <Label Grid.Row="3">Søgeresultater</Label>
+    <TreeView Grid.Row="4" ItemsSource="{Binding SearchResults}">
+        <TreeView.Resources>
+            <HierarchicalDataTemplate DataType="{x:Type viewmodels:SearchEngineResults}" ItemsSource="{Binding Results}">
+                <TextBlock Text="{Binding EngineName}"/>
+            </HierarchicalDataTemplate>
+        </TreeView.Resources>
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="TreeViewItem">
+                <Setter Property="IsExpanded" Value="True"/>
+            </Style>
+        </TreeView.ItemContainerStyle>
+    </TreeView>
+</Grid>
