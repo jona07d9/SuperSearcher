@@ -105,7 +105,7 @@ namespace SuperSearcher
         public void AddSearch(string searchText)
         {
             _searches.Add(searchText);
-            SearchSaver.Save(_searches);
+            SearchSaver?.Save(_searches);
 
             foreach (char character in searchText)
             {
