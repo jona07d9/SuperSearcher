@@ -16,7 +16,6 @@ namespace SuperSearcherConsole
         private static async Task Main()
         {
             StateContext context = new();
-            await context.LoadStatisticsSearches();
             State state = new Menu(context);
 
             while (state != null)

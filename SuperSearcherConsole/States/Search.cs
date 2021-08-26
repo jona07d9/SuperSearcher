@@ -45,7 +45,6 @@ namespace SuperSearcherConsole.States
                 }
 
                 Context.SearchStatistics.AddSearch(input);
-                await Context.SaveStatisticsSearches();
                 return new SearchResults(Context, searchEngineResults);
             }
 
