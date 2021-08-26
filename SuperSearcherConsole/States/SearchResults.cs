@@ -23,8 +23,8 @@ namespace SuperSearcherConsole.States
         /// <param name="searchEngineResults">Search engine names and it's results.</param>
         public SearchResults(StateContext context, List<(string, List<string>)> searchEngineResults) : base(context)
         {
-            Commands.Add("1", ("Menu", () => Task.FromResult<State>(new Menu(Context))));
-            Commands.Add("2", ("New Search", () => Task.FromResult<State>(new Search(Context))));
+            Commands.Add("menu", ("Gå tilbage til menuen.", () => Task.FromResult<State>(new Menu(Context))));
+            Commands.Add("søg", ("Lav endnu en søgning.", () => Task.FromResult<State>(new Search(Context))));
             _searchEngineResults = searchEngineResults;
         }
 

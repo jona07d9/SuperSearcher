@@ -22,7 +22,7 @@ namespace SuperSearcherConsole.States
         /// <param name="context"></param>
         public Statistics(StateContext context) : base(context)
         {
-            Commands.Add("1", ("Menu", () => Task.FromResult<State>(new Menu(Context))));
+            Commands.Add("menu", ("Gå tilbage til menuen.", () => Task.FromResult<State>(new Menu(Context))));
         }
 
         /// <summary>

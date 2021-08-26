@@ -13,9 +13,9 @@ namespace SuperSearcherConsole.States
         /// </summary>
         public Menu(StateContext context) : base(context)
         {
-            Commands.Add("1", ("Søg", () => Task.FromResult<State>(new Search(Context))));
-            Commands.Add("2", ("Statistik", () => Task.FromResult<State>(new Statistics(Context))));
-            Commands.Add("3", ("Afslut", () => Task.FromResult<State>(null)));
+            Commands.Add("søg", ("Lav en søgning.", () => Task.FromResult<State>(new Search(Context))));
+            Commands.Add("statistik", ("Se søgestatistik.", () => Task.FromResult<State>(new Statistics(Context))));
+            Commands.Add("afslut", ("Afslut programmet.", () => Task.FromResult<State>(null)));
         }
 
         /// <summary>

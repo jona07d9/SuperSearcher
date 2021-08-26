@@ -14,7 +14,7 @@ namespace SuperSearcherConsole
         /// <summary>
         /// Contains information shared between states.
         /// </summary>
-        protected StateContext Context { get; set; } = null;
+        protected StateContext Context { get; set; }
         /// <summary>
         /// Command name and action indexed by command text.
         /// </summary>
@@ -29,9 +29,10 @@ namespace SuperSearcherConsole
         {
             State newState = this;
 
-            if (Commands.ContainsKey(command))
+            string lowerCaseCommand = command.ToLower(System.Globalization.CultureInfo.CurrentCulture);
+            if (Commands.ContainsKey(lowerCaseCommand))
             {
-                (string name, Func<Task<State>> execute) = Commands[command];
+                (string name, Func<Task<State>> execute) = Commands[lowerCaseCommand];
                 newState = await execute.Invoke();
             }
 
@@ -107,9 +108,11 @@ namespace SuperSearcherConsole
 
             foreach (KeyValuePair<string, (string, Func<Task<State>>)> command in Commands)
             {
-                (string name, _) = command.Value;
-                Console.WriteLine($"  {command.Key}. {name}");
+                (string description, _) = command.Value;
+                Console.WriteLine($"  {command.Key}: {description}");
             }
+
+            Console.WriteLine();
         }
     }
 }
