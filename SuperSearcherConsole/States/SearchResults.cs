@@ -35,13 +35,14 @@ namespace SuperSearcherConsole.States
         {
             Console.WriteLine("Søgeresultater" + Environment.NewLine);
 
+            int counter = 1;
             foreach ((string searchEngine, List<string> results) in _searchEngineResults)
             {
                 Console.WriteLine($"{searchEngine}:");
 
                 for (int i = 0; i < results.Count; i++)
                 {
-                    Console.WriteLine($"  {i + 1}. {results[i]}");
+                    Console.WriteLine($"  {counter++}. {results[i]}");
                 }
             }
         }
