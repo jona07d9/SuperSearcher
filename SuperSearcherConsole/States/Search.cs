@@ -21,8 +21,8 @@ namespace SuperSearcherConsole.States
         /// </summary>
         private readonly List<ISearchEngine> _searchEngines = new()
         {
-            new DocumentsFolderSearch(),
-            new GoogleBooksAPI()
+            new DocumentsFolderSearch() { ResultsIdentifier = "Mappen Dokumenter" },
+            new GoogleBooksAPI() { ResultsIdentifier = "Google Books" }
         };
 
         /// <summary>

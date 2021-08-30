@@ -40,7 +40,7 @@
     <TreeView Grid.Row="4" ItemsSource="{Binding SearchResults}">
         <TreeView.Resources>
             <HierarchicalDataTemplate DataType="{x:Type viewmodels:SearchEngineResultsViewModel}" ItemsSource="{Binding Results}">
-                <TextBlock Text="{Binding EngineName}"/>
+                <TextBlock Text="{Binding Identifier}"/>
             </HierarchicalDataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:SearchResultViewModel}">

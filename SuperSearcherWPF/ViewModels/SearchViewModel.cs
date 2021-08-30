@@ -20,10 +20,10 @@ namespace SuperSearcherWPF.ViewModels
         /// <summary>
         /// The search engines used when searching.
         /// </summary>
-        private readonly List<ISearchEngine> _searchEngines = new() 
-        { 
-            new DocumentsFolderSearch(),
-            new GoogleBooksAPI()
+        private readonly List<ISearchEngine> _searchEngines = new()
+        {
+            new DocumentsFolderSearch() { ResultsIdentifier = "Mappen Dokumenter" },
+            new GoogleBooksAPI() { ResultsIdentifier = "Google Books" }
         };
         /// <summary>
         /// The text in the search text box.
@@ -70,18 +70,20 @@ namespace SuperSearcherWPF.ViewModels
                             List<Task> searchTasks = new();
                             foreach (ISearchEngine searchEngine in _searchEngines)
                             {
-                                Task<SearchEngineResults> searchTask = searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
+                                Task<SearchEngineResults> searchTask = 
+                                    searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
                                 searchTasks.Add(searchTask);
                             }
 
                             List<SearchEngineResultsViewModel> newResults = new();
                             while (searchTasks.Count > 0)
                             {
-                                Task<SearchEngineResults> searchTask = await Task.WhenAny(searchTasks) as Task<SearchEngineResults>;
-                                SearchEngineResults searchEngineResults = searchTask.Result;
+                                Task<SearchEngineResults> searchTask = 
+                                    await Task.WhenAny(searchTasks) as Task<SearchEngineResults>;
+                                SearchEngineResults engineResults = searchTask.Result;
 
                                 SearchEngineResultsViewModel engineResultsViewModel = new(
-                                    _context, searchEngineResults.SearchLocationName, searchEngineResults.SearchResults);
+                                    _context, engineResults.Identifier, engineResults.SearchResults);
                                 newResults.Add(engineResultsViewModel);
 
                                 _ = searchTasks.Remove(searchTask);

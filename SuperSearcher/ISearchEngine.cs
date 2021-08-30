@@ -12,16 +12,20 @@ namespace SuperSearcher
     public interface ISearchEngine
     {
         /// <summary>
-        /// The name of the location the search engine searches.
+        /// An identifier that will be set on the returned SearchEngineResults,
+        /// to identify which search engine the results came from.
         /// </summary>
-        string SearchLocationName { get; }
+        string ResultsIdentifier { get; set; }
 
         /// <summary>
         /// Searches for some text.
         /// </summary>
         /// <param name="searchText">The text to search for.</param>
         /// <param name="maxResults">The maximum number of results to return.</param>
-        /// <returns>A SearchEngineResults object containing the name of the search engine and a list of ISearchResult.</returns>
+        /// <returns>
+        /// A SearchEngineResults object containing the name of the search engine
+        /// and a list of ISearchResult.
+        /// </returns>
         Task<SearchEngineResults> Search(string searchText, int maxResults);
     }
 }

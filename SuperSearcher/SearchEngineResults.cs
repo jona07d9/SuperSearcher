@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace SuperSearcher
 {
     /// <summary>
-    /// Groups search results and the name of the location that was searched together.
+    /// Groups search results with an identifier.
     /// </summary>
     public class SearchEngineResults
     {
         /// <summary>
-        /// The name of the location that was searched.
+        /// Used to identify which search engine the results came from.
         /// </summary>
-        public string SearchLocationName { get; set; } = "";
+        public string Identifier { get; set; } = "";
 
         /// <summary>
         /// The search results the search engine returned.

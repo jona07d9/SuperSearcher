@@ -98,7 +98,7 @@ namespace SuperSearcherConsole.States
             int counter = 1;
             foreach (SearchEngineResults searchEngineResults in _searchEngineResults)
             {
-                Console.WriteLine($"{searchEngineResults.SearchLocationName}:");
+                Console.WriteLine($"{searchEngineResults.Identifier}:");
 
                 for (int i = 0; i < searchEngineResults.SearchResults.Count; i++)
                 {

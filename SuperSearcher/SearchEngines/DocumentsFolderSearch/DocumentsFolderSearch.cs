@@ -18,7 +18,11 @@ namespace SuperSearcher.SearchEngines.DocumentsFolderSearch
         private readonly string DocumentsPath =
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public string SearchLocationName => "Documents Folder";
+        /// <summary>
+        /// An identifier that will be set on the returned SearchEngineResults,
+        /// to identify which search engine the results came from.
+        /// </summary>
+        public string ResultsIdentifier { get; set; } = "";
 
         /// <summary>
         /// Searches for files and folders that are in the documents folder or any of it's subfolders.
@@ -29,7 +33,7 @@ namespace SuperSearcher.SearchEngines.DocumentsFolderSearch
         public Task<SearchEngineResults> Search(string searchText, int maxResults)
         {
             SearchEngineResults searchEngineResults = 
-                new() { SearchLocationName = SearchLocationName };
+                new() { Identifier = ResultsIdentifier };
 
             foreach (string entry in Directory.EnumerateFileSystemEntries(
                 DocumentsPath, $"*{searchText}*", SearchOption.AllDirectories))

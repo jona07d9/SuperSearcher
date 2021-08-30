@@ -22,7 +22,11 @@ namespace SuperSearcher.SearchEngines.GoogleBooks
         /// </summary>
         private readonly HttpClient _httpClient = new();
 
-        public string SearchLocationName => "Google Books";
+        /// <summary>
+        /// An identifier set on the returned SearchEngineResults,
+        /// to identify which search engine the results came from.
+        /// </summary>
+        public string ResultsIdentifier { get; set; } = "";
 
         /// <summary>
         /// Sets request headers.
@@ -44,9 +48,11 @@ namespace SuperSearcher.SearchEngines.GoogleBooks
         public async Task<SearchEngineResults> Search(string searchText, int maxResults)
         {
             Stream stream = await _httpClient.GetStreamAsync(RequestUri + searchText);
-            GoogleBooksResults results = await JsonSerializer.DeserializeAsync<GoogleBooksResults>(stream);
+            GoogleBooksResults results = 
+                await JsonSerializer.DeserializeAsync<GoogleBooksResults>(stream);
 
-            SearchEngineResults searchEngineResults = new() { SearchLocationName = SearchLocationName };
+            SearchEngineResults searchEngineResults = 
+                new() { Identifier = ResultsIdentifier };
             foreach (GoogleBooksItem item in results.Items)
             {
                 if (searchEngineResults.SearchResults.Count >= maxResults)
