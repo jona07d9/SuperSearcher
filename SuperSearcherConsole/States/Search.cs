@@ -1,11 +1,8 @@
 ﻿using SuperSearcher;
-using SuperSearcher.SearchEngines;
+using SuperSearcher.SearchEngines.DocumentsFolderSearch;
 using SuperSearcher.SearchEngines.GoogleBooks;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SuperSearcherConsole.States
@@ -22,7 +19,7 @@ namespace SuperSearcherConsole.States
         /// <summary>
         /// The search engines that will be used when searching.
         /// </summary>
-        private List<ISearchEngine> _searchEngines = new()
+        private readonly List<ISearchEngine> _searchEngines = new()
         {
             new DocumentsFolderSearch(),
             new GoogleBooksAPI()
@@ -37,7 +34,7 @@ namespace SuperSearcherConsole.States
         {
             if (input.Length > 0)
             {
-                List<(string, List<string>)> searchEngineResults = new();
+                List<(string, List<ISearchResult>)> searchEngineResults = new();
 
                 foreach (ISearchEngine searchEngine in _searchEngines)
                 {

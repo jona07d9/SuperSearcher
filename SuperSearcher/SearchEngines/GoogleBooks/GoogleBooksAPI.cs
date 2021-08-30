@@ -41,24 +41,24 @@ namespace SuperSearcher.SearchEngines.GoogleBooks
         /// <param name="searchText">The text to search for.</param>
         /// <param name="maxResults">The maximum number of results to return.</param>
         /// <returns>The names of the books that was found.</returns>
-        public async Task<List<string>> Search(string searchText, int maxResults)
+        public async Task<List<ISearchResult>> Search(string searchText, int maxResults)
         {
             Stream stream = await _httpClient.GetStreamAsync(RequestUri + searchText);
             GoogleBooksResults results = await JsonSerializer.DeserializeAsync<GoogleBooksResults>(stream);
 
-            List<string> titles = new();
+            List<ISearchResult> books = new();
 
             foreach (GoogleBooksItem item in results.Items)
             {
-                if (titles.Count >= maxResults)
+                if (books.Count >= maxResults)
                 {
                     break;
                 }
 
-                titles.Add(item.VolumeInfo.Title);
+                books.Add(new GoogleBooksSearchResult() { Name = item.VolumeInfo.Title, Link = item.VolumeInfo.InfoLink });
             }
 
-            return titles;
+            return books;
         }
     }
 }

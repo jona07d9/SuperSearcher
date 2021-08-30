@@ -17,5 +17,11 @@ namespace SuperSearcher.SearchEngines.GoogleBooks
         /// </summary>
         [JsonPropertyName("title")]
         public string Title { get; set; } = "";
+
+        /// <summary>
+        /// A link to see more information about the item.
+        /// </summary>
+        [JsonPropertyName("infoLink")]
+        public string InfoLink { get; set; } = "";
     }
 }

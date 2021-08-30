@@ -73,7 +73,7 @@ namespace SuperSearcherConsole
         /// </summary>
         /// <param name="input">The text to be processed.</param>
         /// <returns>The state after the input has been processed.</returns>
-        public async Task<State> Process(string input)
+        public virtual async Task<State> Process(string input)
         {
             State newState;
 

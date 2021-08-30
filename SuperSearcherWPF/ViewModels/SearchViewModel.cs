@@ -1,13 +1,7 @@
 ﻿using SuperSearcher;
-using SuperSearcher.SearchEngines;
+using SuperSearcher.SearchEngines.DocumentsFolderSearch;
 using SuperSearcher.SearchEngines.GoogleBooks;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SuperSearcherWPF.ViewModels
@@ -24,14 +18,14 @@ namespace SuperSearcherWPF.ViewModels
         /// <summary>
         /// The search results returned by the search engine.
         /// </summary>
-        public List<string> Results { get; set; }
+        public List<ISearchResult> Results { get; set; }
 
         /// <summary>
         /// Initialize.
         /// </summary>
         /// <param name="engineName">The name of the search engine the search results came from.</param>
         /// <param name="results">The search results returned by the search engine.</param>
-        public SearchEngineResults(string engineName, List<string> results)
+        public SearchEngineResults(string engineName, List<ISearchResult> results)
         {
             EngineName = engineName;
             Results = results;
@@ -51,7 +45,7 @@ namespace SuperSearcherWPF.ViewModels
         /// <summary>
         /// The search engines used when searching.
         /// </summary>
-        private List<ISearchEngine> _searchEngines = new() 
+        private readonly List<ISearchEngine> _searchEngines = new() 
         { 
             new DocumentsFolderSearch(),
             new GoogleBooksAPI()
@@ -102,7 +96,7 @@ namespace SuperSearcherWPF.ViewModels
                             foreach (ISearchEngine searchEngine in _searchEngines)
                             {
                                 // TODO: Start all search engines and await them all at once.
-                                List<string> results = await searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
+                                List<ISearchResult> results = await searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
                                 SearchEngineResults engineResults = new(searchEngine.SearchLocationName, results);
                                 newResults.Add(engineResults);
                             }

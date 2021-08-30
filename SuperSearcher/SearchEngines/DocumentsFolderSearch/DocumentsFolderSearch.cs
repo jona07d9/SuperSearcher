@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SuperSearcher.SearchEngines
+namespace SuperSearcher.SearchEngines.DocumentsFolderSearch
 {
     /// <summary>
     /// Searches the documents folder.
@@ -25,9 +25,9 @@ namespace SuperSearcher.SearchEngines
         /// <param name="searchText">The text to search for.</param>
         /// <param name="maxResults">The maximum number of results to return.</param>
         /// <returns>The names of all files and folders that contains the search text.</returns>
-        public Task<List<string>> Search(string searchText, int maxResults)
+        public Task<List<ISearchResult>> Search(string searchText, int maxResults)
         {
-            List<string> results = new();
+            List<ISearchResult> results = new();
 
             foreach (string entry in Directory.EnumerateFileSystemEntries(DocumentsPath, $"*{searchText}*"))
             {
@@ -36,8 +36,9 @@ namespace SuperSearcher.SearchEngines
                     break;
                 }
 
-                string entryName = entry[(DocumentsPath.Length + 1)..];
-                results.Add(entryName);
+                string name = entry[(DocumentsPath.Length + 1)..];
+                string path = Path.Combine(DocumentsPath, name);
+                results.Add(new DocumentsFolderSearchResult() { Name = name, Path = path});
             }
 
             return Task.FromResult(results);
