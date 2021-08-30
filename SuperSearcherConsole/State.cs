@@ -15,10 +15,12 @@ namespace SuperSearcherConsole
         /// Contains information shared between states.
         /// </summary>
         protected StateContext Context { get; set; }
+
         /// <summary>
         /// Command name and action indexed by command text.
         /// </summary>
-        protected Dictionary<string, (string, Func<Task<State>>)> Commands { get; set; } = new();
+        protected Dictionary<string, (string, Func<Task<State>>)>
+            Commands { get; set; } = new();
 
         /// <summary>
         /// Executes a command if it exists.
@@ -29,10 +31,12 @@ namespace SuperSearcherConsole
         {
             State newState = this;
 
-            string lowerCaseCommand = command.ToLower(System.Globalization.CultureInfo.CurrentCulture);
+            string lowerCaseCommand = command.ToLower(
+                System.Globalization.CultureInfo.CurrentCulture);
             if (Commands.ContainsKey(lowerCaseCommand))
             {
-                (string name, Func<Task<State>> execute) = Commands[lowerCaseCommand];
+                (string name, Func<Task<State>> execute) =
+                    Commands[lowerCaseCommand];
                 newState = await execute.Invoke();
             }
 
@@ -64,28 +68,19 @@ namespace SuperSearcherConsole
         public void Display()
         {
             DisplayMessage();
-            Console.WriteLine();
             DisplayCommands();
         }
 
         /// <summary>
-        /// Decides whether or not the input should be processed as a command, depending on if the state has any commands.
+        /// Decides whether or not the input should be processed as a command,
+        /// depending on if the state has any commands.
         /// </summary>
         /// <param name="input">The text to be processed.</param>
         /// <returns>The state after the input has been processed.</returns>
         public virtual async Task<State> Process(string input)
         {
-            State newState;
-
-            if (Commands.Count > 0)
-            {
-                newState = await ExecuteCommand(input);
-            }
-            else
-            {
-                newState = await ProcessInput(input);
-            }
-
+            State newState = Commands.Count > 0 ?
+                await ExecuteCommand(input) : await ProcessInput(input);
             return newState;
         }
 
@@ -104,9 +99,11 @@ namespace SuperSearcherConsole
                 return;
             }
 
+            Console.WriteLine();
             Console.WriteLine("Kommandoer:");
 
-            foreach (KeyValuePair<string, (string, Func<Task<State>>)> command in Commands)
+            foreach (KeyValuePair<string, (string, Func<Task<State>>)>
+                command in Commands)
             {
                 (string description, _) = command.Value;
                 Console.WriteLine($"  {command.Key}: {description}");
