@@ -5,8 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:SuperSearcherWPF.Views"
-    xmlns:googlebooks="clr-namespace:SuperSearcher.SearchEngines.GoogleBooks;assembly=SuperSearcher"
-    xmlns:documentsfoldersearch="clr-namespace:SuperSearcher.SearchEngines.DocumentsFolderSearch;assembly=SuperSearcher"
     xmlns:viewmodels="clr-namespace:SuperSearcherWPF.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SearchViewModel}"
     mc:Ignorable="d" 
@@ -41,16 +39,16 @@
     <Label Grid.Row="3">Søgeresultater</Label>
     <TreeView Grid.Row="4" ItemsSource="{Binding SearchResults}">
         <TreeView.Resources>
-            <HierarchicalDataTemplate DataType="{x:Type viewmodels:SearchEngineResults}" ItemsSource="{Binding Results}">
+            <HierarchicalDataTemplate DataType="{x:Type viewmodels:SearchEngineResultsViewModel}" ItemsSource="{Binding Results}">
                 <TextBlock Text="{Binding EngineName}"/>
             </HierarchicalDataTemplate>
 
-            <DataTemplate DataType="{x:Type documentsfoldersearch:DocumentsFolderSearchResult}">
-                <TextBlock Text="{Binding Name}"/>
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type googlebooks:GoogleBooksSearchResult}">
-                <TextBlock Text="{Binding Name}"/>
+            <DataTemplate DataType="{x:Type viewmodels:SearchResultViewModel}">
+                <TextBlock>
+                    <Hyperlink Command="{Binding OpenCommand}">
+                        <Run Text="{Binding Name, Mode=OneWay}"/>
+                    </Hyperlink>
+                </TextBlock>
             </DataTemplate>
         </TreeView.Resources>
         <TreeView.ItemContainerStyle>

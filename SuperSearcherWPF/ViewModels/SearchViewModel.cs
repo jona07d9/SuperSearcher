@@ -7,32 +7,6 @@ using System.Windows.Input;
 namespace SuperSearcherWPF.ViewModels
 {
     /// <summary>
-    /// Contains search results and the name of the search engine they came from.
-    /// </summary>
-    public class SearchEngineResults
-    {
-        /// <summary>
-        /// The name of the search engine the search results came from.
-        /// </summary>
-        public string EngineName { get; set; }
-        /// <summary>
-        /// The search results returned by the search engine.
-        /// </summary>
-        public List<ISearchResult> Results { get; set; }
-
-        /// <summary>
-        /// Initialize.
-        /// </summary>
-        /// <param name="engineName">The name of the search engine the search results came from.</param>
-        /// <param name="results">The search results returned by the search engine.</param>
-        public SearchEngineResults(string engineName, List<ISearchResult> results)
-        {
-            EngineName = engineName;
-            Results = results;
-        }
-    }
-
-    /// <summary>
     /// View model for Search.xaml.
     /// </summary>
     public class SearchViewModel : ViewModel
@@ -61,7 +35,7 @@ namespace SuperSearcherWPF.ViewModels
         /// <summary>
         /// The search results from the last search.
         /// </summary>
-        private List<SearchEngineResults> _searchResults = new();
+        private List<SearchEngineResultsViewModel> _searchResults = new();
 
         /// <summary>
         /// The text in the search text box.
@@ -92,12 +66,12 @@ namespace SuperSearcherWPF.ViewModels
                         {
                             _context.SearchStatistics.AddSearch(SearchText);
 
-                            List<SearchEngineResults> newResults = new();
+                            List<SearchEngineResultsViewModel> newResults = new();
                             foreach (ISearchEngine searchEngine in _searchEngines)
                             {
                                 // TODO: Start all search engines and await them all at once.
                                 List<ISearchResult> results = await searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
-                                SearchEngineResults engineResults = new(searchEngine.SearchLocationName, results);
+                                SearchEngineResultsViewModel engineResults = new(_context, searchEngine.SearchLocationName, results);
                                 newResults.Add(engineResults);
                             }
                             SearchResults = newResults;
@@ -117,7 +91,7 @@ namespace SuperSearcherWPF.ViewModels
         /// <summary>
         /// The search results from the last search.
         /// </summary>
-        public List<SearchEngineResults> SearchResults
+        public List<SearchEngineResultsViewModel> SearchResults
         {
             get => _searchResults;
             set
