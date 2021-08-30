@@ -2,6 +2,7 @@
 using SuperSearcher.SearchEngines.DocumentsFolderSearch;
 using SuperSearcher.SearchEngines.GoogleBooks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SuperSearcherWPF.ViewModels
@@ -66,13 +67,24 @@ namespace SuperSearcherWPF.ViewModels
                         {
                             _context.SearchStatistics.AddSearch(SearchText);
 
-                            List<SearchEngineResultsViewModel> newResults = new();
+                            List<Task> searchTasks = new();
                             foreach (ISearchEngine searchEngine in _searchEngines)
                             {
-                                // TODO: Start all search engines and await them all at once.
-                                List<ISearchResult> results = await searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
-                                SearchEngineResultsViewModel engineResults = new(_context, searchEngine.SearchLocationName, results);
-                                newResults.Add(engineResults);
+                                Task<SearchEngineResults> searchTask = searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
+                                searchTasks.Add(searchTask);
+                            }
+
+                            List<SearchEngineResultsViewModel> newResults = new();
+                            while (searchTasks.Count > 0)
+                            {
+                                Task<SearchEngineResults> searchTask = await Task.WhenAny(searchTasks) as Task<SearchEngineResults>;
+                                SearchEngineResults searchEngineResults = searchTask.Result;
+
+                                SearchEngineResultsViewModel engineResultsViewModel = new(
+                                    _context, searchEngineResults.SearchLocationName, searchEngineResults.SearchResults);
+                                newResults.Add(engineResultsViewModel);
+
+                                _ = searchTasks.Remove(searchTask);
                             }
                             SearchResults = newResults;
                         },

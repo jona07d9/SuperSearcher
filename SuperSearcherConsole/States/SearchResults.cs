@@ -16,7 +16,7 @@ namespace SuperSearcherConsole.States
         /// <summary>
         /// Search engine names and it's results.
         /// </summary>
-        private readonly List<(string, List<ISearchResult>)> _searchEngineResults;
+        private readonly List<SearchEngineResults> _searchEngineResults;
 
         /// <summary>
         /// Converts an item number to a search result.
@@ -28,16 +28,16 @@ namespace SuperSearcherConsole.States
             ISearchResult searchResult = null;
 
             int counter = 0;
-            foreach ((string searchEngine, List<ISearchResult> results) in _searchEngineResults)
+            foreach (SearchEngineResults searchEngineResults in _searchEngineResults)
             {
-                if (counter + results.Count < itemNumber)
+                if (counter + searchEngineResults.SearchResults.Count < itemNumber)
                 {
-                    counter += results.Count;
+                    counter += searchEngineResults.SearchResults.Count;
                 }
                 else
                 {
                     int index = itemNumber - counter - 1;
-                    searchResult = results[index];
+                    searchResult = searchEngineResults.SearchResults[index];
                     break;
                 }
             }
@@ -52,9 +52,9 @@ namespace SuperSearcherConsole.States
         private int GetSearchResultCount()
         {
             int count = 0;
-            foreach ((string searchEngine, List<ISearchResult> results) in _searchEngineResults)
+            foreach (SearchEngineResults searchEngineResults in _searchEngineResults)
             {
-                count += results.Count;
+                count += searchEngineResults.SearchResults.Count;
             }
 
             return count;
@@ -65,7 +65,7 @@ namespace SuperSearcherConsole.States
         /// </summary>
         /// <param name="context">Information shared between states.</param>
         /// <param name="searchEngineResults">Search engine names and it's results.</param>
-        public SearchResults(StateContext context, List<(string, List<ISearchResult>)> searchEngineResults) : base(context)
+        public SearchResults(StateContext context, List<SearchEngineResults> searchEngineResults) : base(context)
         {
             Commands.Add("menu", ("Gå tilbage til menuen.", () => Task.FromResult<State>(new Menu(Context))));
             Commands.Add("søg", ("Lav endnu en søgning.", () => Task.FromResult<State>(new Search(Context))));
@@ -96,13 +96,13 @@ namespace SuperSearcherConsole.States
             Console.WriteLine("Søgeresultater" + Environment.NewLine);
 
             int counter = 1;
-            foreach ((string searchEngine, List<ISearchResult> results) in _searchEngineResults)
+            foreach (SearchEngineResults searchEngineResults in _searchEngineResults)
             {
-                Console.WriteLine($"{searchEngine}:");
+                Console.WriteLine($"{searchEngineResults.SearchLocationName}:");
 
-                for (int i = 0; i < results.Count; i++)
+                for (int i = 0; i < searchEngineResults.SearchResults.Count; i++)
                 {
-                    Console.WriteLine($"  {counter++}. {results[i].Name}");
+                    Console.WriteLine($"  {counter++}. {searchEngineResults.SearchResults[i].Name}");
                 }
             }
         }

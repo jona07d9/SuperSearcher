@@ -21,7 +21,7 @@ namespace SuperSearcher
         /// </summary>
         /// <param name="searchText">The text to search for.</param>
         /// <param name="maxResults">The maximum number of results to return.</param>
-        /// <returns>A list of text that matched the search text.</returns>
-        Task<List<ISearchResult>> Search(string searchText, int maxResults);
+        /// <returns>A SearchEngineResults object containing the name of the search engine and a list of ISearchResult.</returns>
+        Task<SearchEngineResults> Search(string searchText, int maxResults);
     }
 }

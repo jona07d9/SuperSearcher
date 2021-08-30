@@ -24,24 +24,24 @@ namespace SuperSearcher.SearchEngines.DocumentsFolderSearch
         /// </summary>
         /// <param name="searchText">The text to search for.</param>
         /// <param name="maxResults">The maximum number of results to return.</param>
-        /// <returns>The names of all files and folders that contains the search text.</returns>
-        public Task<List<ISearchResult>> Search(string searchText, int maxResults)
+        /// <returns>A SearchEngineResults object containing the search results.</returns>
+        public Task<SearchEngineResults> Search(string searchText, int maxResults)
         {
-            List<ISearchResult> results = new();
+            SearchEngineResults searchEngineResults = new() { SearchLocationName = SearchLocationName };
 
             foreach (string entry in Directory.EnumerateFileSystemEntries(DocumentsPath, $"*{searchText}*"))
             {
-                if (results.Count >= maxResults)
+                if (searchEngineResults.SearchResults.Count >= maxResults)
                 {
                     break;
                 }
 
                 string name = entry[(DocumentsPath.Length + 1)..];
                 string path = Path.Combine(DocumentsPath, name);
-                results.Add(new DocumentsFolderSearchResult() { Name = name, Path = path});
+                searchEngineResults.SearchResults.Add(new DocumentsFolderSearchResult() { Name = name, Path = path});
             }
 
-            return Task.FromResult(results);
+            return Task.FromResult(searchEngineResults);
         }
     }
 }

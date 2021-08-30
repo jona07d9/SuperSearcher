@@ -34,14 +34,26 @@ namespace SuperSearcherConsole.States
         {
             if (input.Length > 0)
             {
-                List<(string, List<ISearchResult>)> searchEngineResults = new();
+                Context.SearchStatistics.AddSearch(input);
 
+                List<Task> searchTasks = new();
                 foreach (ISearchEngine searchEngine in _searchEngines)
                 {
-                    searchEngineResults.Add((searchEngine.SearchLocationName, await searchEngine.Search(input, MaxResultsPerEngine)));
+                    Task<SearchEngineResults> searchTask = 
+                        searchEngine.Search(input, MaxResultsPerEngine);
+                    searchTasks.Add(searchTask);
                 }
 
-                Context.SearchStatistics.AddSearch(input);
+                List<SearchEngineResults> searchEngineResults = new();
+                while (searchTasks.Count > 0)
+                {
+                    Task<SearchEngineResults> searchTask = 
+                        await Task.WhenAny(searchTasks) as Task<SearchEngineResults>;
+                    searchEngineResults.Add(searchTask.Result);
+
+                    _ = searchTasks.Remove(searchTask);
+                }
+
                 return new SearchResults(Context, searchEngineResults);
             }
 
