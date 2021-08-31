@@ -12,6 +12,10 @@
             <Setter Property="Padding" Value="16,8,16,8"/>
         </Style>
 
+        <Style TargetType="local:ConfirmedButton">
+            <Setter Property="Padding" Value="16,8,16,8"/>
+        </Style>
+
         <Style TargetType="Label" x:Key="Title" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="FontSize" Value="20"/>
         </Style>

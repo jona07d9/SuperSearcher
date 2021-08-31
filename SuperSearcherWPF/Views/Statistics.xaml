@@ -5,7 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:SuperSearcherWPF.Views"
-    xmlns:viewmodels="clr-namespace:SuperSearcherWPF.ViewModels"
+    xmlns:viewmodels="clr-namespace:SuperSearcherWPF.ViewModels" 
+    xmlns:supersearcherwpf="clr-namespace:SuperSearcherWPF"
     d:DataContext="{d:DesignInstance Type=viewmodels:StatisticsViewModel}"
     mc:Ignorable="d" 
     d:DesignWidth="800"
@@ -82,6 +83,11 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0" Command="{Binding ResetStatisticsCommand}">Nulstil statistik</Button>
+        <supersearcherwpf:ConfirmedButton 
+            Grid.Column="0"
+            Command="{Binding ResetStatisticsCommand}"
+            Message="Er du sikker på at du vil nulstille statistikken?"
+            Caption="Godkend nulstilling"
+            >Nulstil statistik</supersearcherwpf:ConfirmedButton>
     </Grid>
 </Grid>
