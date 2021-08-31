@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace SuperSearcherWPF.ViewModels
 {
@@ -46,6 +47,10 @@ namespace SuperSearcherWPF.ViewModels
         /// The least used characters and how many times they were used.
         /// </summary>
         private List<KeyValuePair<char, int>> _leastUsedCharacters = new();
+        /// <summary>
+        /// Command that resets the statistics.
+        /// </summary>
+        private ICommand _resetStatisticsCommand;
 
         /// <summary>
         /// The total number of searches that have been done.
@@ -156,6 +161,33 @@ namespace SuperSearcherWPF.ViewModels
                     _leastUsedCharacters = value;
                     NotifyPropertyChanged();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Command that resets the statistics.
+        /// </summary>
+        public ICommand ResetStatisticsCommand
+        {
+            get
+            {
+                if (_resetStatisticsCommand == null)
+                {
+                    _resetStatisticsCommand = new RelayCommand(
+                        parameter =>
+                        {
+                            _context.SearchStatistics.ResetStatistics();
+                            UpdateStatistics();
+                        },
+
+                        parameter =>
+                        {
+                            return _context.SearchStatistics.TotalSearches > 0;
+                        }
+                    );
+                }
+
+                return _resetStatisticsCommand;
             }
         }
 

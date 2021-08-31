@@ -22,6 +22,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Style="{StaticResource Title}">Statistik</Label>
@@ -70,5 +71,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </GroupBox>
+
+        <Button Grid.Row="8" Command="{Binding ResetStatisticsCommand}">Nulstil statistik</Button>
     </Grid>
 </ScrollViewer>
