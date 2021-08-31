@@ -106,5 +106,15 @@ namespace SuperSearcherConsole.States
                 }
             }
         }
+
+        /// <summary>
+        /// Displays a message after showing the commands.
+        /// </summary>
+        public override void DisplayCommands()
+        {
+            base.DisplayCommands();
+            Console.WriteLine("Eller indtast nummeret på et søgeresultat, for at åbne det.");
+            Console.WriteLine();
+        }
     }
 }

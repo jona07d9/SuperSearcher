@@ -92,7 +92,7 @@ namespace SuperSearcherConsole
         /// <summary>
         /// Displays a list of the state's commands.
         /// </summary>
-        public void DisplayCommands()
+        public virtual void DisplayCommands()
         {
             if (Commands.Count == 0)
             {
