@@ -140,6 +140,21 @@ namespace SuperSearcher
         }
 
         /// <summary>
+        /// Removes all searches, saves and resets all statistics.
+        /// </summary>
+        public void ResetStatistics()
+        {
+            _searches.Clear();
+            _searchSaver?.Save(_searches);
+
+            _characterCounts.Clear();
+            _totalLength = 0;
+            LongestSearch = "";
+            ShortestSearch = "";
+            AverageLength = 0;
+        }
+
+        /// <summary>
         /// Returns how many times the character has been used in a search.
         /// </summary>
         /// <param name="character">The character to get the count of.</param>

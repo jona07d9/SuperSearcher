@@ -23,6 +23,10 @@ namespace SuperSearcherConsole.States
         public Statistics(StateContext context) : base(context)
         {
             Commands.Add("menu", ("Gå tilbage til menuen.", () => Task.FromResult<State>(new Menu(Context))));
+            Commands.Add("nulstil", ("Slet alle søgninger og nulstil statistikken.", () => {
+                Context.SearchStatistics.ResetStatistics();
+                return Task.FromResult<State>(this);
+            }));
         }
 
         /// <summary>
