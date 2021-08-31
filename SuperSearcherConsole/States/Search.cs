@@ -32,15 +32,16 @@ namespace SuperSearcherConsole.States
         /// <returns>A state displaying the search results, or the current state, if the search text was empty.</returns>
         protected override async Task<State> ProcessInput(string input)
         {
-            if (input.Length > 0)
+            string trimmedInput = input.Trim();
+            if (trimmedInput.Length > 0)
             {
-                Context.SearchStatistics.AddSearch(input);
+                Context.SearchStatistics.AddSearch(trimmedInput);
 
                 List<Task> searchTasks = new();
                 foreach (ISearchEngine searchEngine in _searchEngines)
                 {
                     Task<SearchEngineResults> searchTask = 
-                        searchEngine.Search(input, MaxResultsPerEngine);
+                        searchEngine.Search(trimmedInput, MaxResultsPerEngine);
                     searchTasks.Add(searchTask);
                 }
 

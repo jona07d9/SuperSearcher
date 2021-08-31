@@ -65,13 +65,15 @@ namespace SuperSearcherWPF.ViewModels
                     _searchCommand = new RelayCommand(
                         async parameter =>
                         {
-                            _context.SearchStatistics.AddSearch(SearchText);
+                            string trimmedSearch = SearchText.Trim();
+
+                            _context.SearchStatistics.AddSearch(trimmedSearch);
 
                             List<Task> searchTasks = new();
                             foreach (ISearchEngine searchEngine in _searchEngines)
                             {
-                                Task<SearchEngineResults> searchTask = 
-                                    searchEngine.Search(SearchText, MaxSearchResultsPerEngine);
+                                Task<SearchEngineResults> searchTask =
+                                    searchEngine.Search(trimmedSearch, MaxSearchResultsPerEngine);
                                 searchTasks.Add(searchTask);
                             }
 
@@ -93,7 +95,7 @@ namespace SuperSearcherWPF.ViewModels
 
                         parameter =>
                         {
-                            return SearchText.Length > 0;
+                            return SearchText.Trim().Length > 0;
                         }
                     );
                 }
