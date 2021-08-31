@@ -36,7 +36,7 @@
             <Label Grid.Row="3" Content="{Binding ShortestSearch}" ContentStringFormat="Korteste søgning: {0}"/>
             <Label Grid.Row="4" Content="{Binding AverageSearchLength}" ContentStringFormat="Gennemsnitslængde: {0}"/>
 
-            <GroupBox Grid.Row="5" Header="Seneste søgninger">
+            <GroupBox Grid.Row="5" Margin="0,8,0,0" Header="Seneste søgninger">
                 <ItemsControl ItemsSource="{Binding LatestSearches}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -46,7 +46,7 @@
                 </ItemsControl>
             </GroupBox>
 
-            <GroupBox Grid.Row="6" Header="Mest brugte tegn">
+            <GroupBox Grid.Row="6" Margin="0,8,0,0" Header="Mest brugte tegn">
                 <ItemsControl ItemsSource="{Binding MostUsedCharacters}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -61,7 +61,7 @@
                 </ItemsControl>
             </GroupBox>
 
-            <GroupBox Grid.Row="7" Header="Mindst brugte tegn">
+            <GroupBox Grid.Row="7" Margin="0,8,0,0" Header="Mindst brugte tegn">
                 <ItemsControl ItemsSource="{Binding LeastUsedCharacters}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
