@@ -44,6 +44,11 @@ namespace SuperSearcher
         }
 
         /// <summary>
+        /// A readonly list of all searches made.
+        /// </summary>
+        public IReadOnlyList<string> Searches => _searches.AsReadOnly();
+
+        /// <summary>
         /// The total amount of searches made.
         /// </summary>
         public int TotalSearches => _searches.Count;
@@ -141,28 +146,7 @@ namespace SuperSearcher
         /// <returns>How many times the character has been used in a search.</returns>
         public int GetCharacterCount(char character)
         {
-            if (!_characterCounts.ContainsKey(character))
-            {
-                return 0;
-            }
-
-            return _characterCounts[character];
-        }
-
-        /// <summary>
-        /// Gets a list of characters used in a search and how many times it was used, sorted by how many times it was used.
-        /// </summary>
-        /// <returns>A list of character and used count key value pairs.</returns>
-        public List<KeyValuePair<char, int>> GetSortedCharacterCounts()
-        {
-            List<KeyValuePair<char, int>> characterCounts = _characterCounts.ToList();
-            characterCounts.Sort(
-                    delegate (KeyValuePair<char, int> x, KeyValuePair<char, int> y)
-                    {
-                        return y.Value - x.Value;
-                    });
-
-            return characterCounts;
+            return !_characterCounts.ContainsKey(character) ? 0 : _characterCounts[character];
         }
 
         /// <summary>
@@ -187,15 +171,6 @@ namespace SuperSearcher
             return (from entry in _characterCounts
                     orderby entry.Value ascending
                     select entry).Take(maxCharacters).ToList();
-        }
-
-        /// <summary>
-        /// Get a read only list of searches.
-        /// </summary>
-        /// <returns>A list of searches that can't be modified.</returns>
-        public ReadOnlyCollection<string> GetSearches()
-        {
-            return _searches.AsReadOnly();
         }
     }
 }

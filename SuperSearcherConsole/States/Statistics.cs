@@ -19,7 +19,7 @@ namespace SuperSearcherConsole.States
         /// <summary>
         /// Adds commands.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Information shared between states.</param>
         public Statistics(StateContext context) : base(context)
         {
             Commands.Add("menu", ("Gå tilbage til menuen.", () => Task.FromResult<State>(new Menu(Context))));
@@ -40,12 +40,10 @@ namespace SuperSearcherConsole.States
                 $"Gennemsnitslængde: {Context.SearchStatistics.AverageLength}" + Environment.NewLine
             );
 
-            List<KeyValuePair<char, int>> characterCounts = Context.SearchStatistics.GetSortedCharacterCounts();
-            int actualCount = Math.Min(characterCounts.Count, UsedCharactersCount);
-
             Console.WriteLine($"Mest brugte tegn:");
 
-            foreach ((char character, int count) in characterCounts.Take(actualCount))
+            foreach ((char character, int count) in 
+                Context.SearchStatistics.GetMostUsedCharacters(UsedCharactersCount))
             {
                 Console.WriteLine($"  {character}: {count}");
             }
@@ -53,7 +51,8 @@ namespace SuperSearcherConsole.States
             Console.WriteLine();
             Console.WriteLine($"Mindst brugte tegn:");
 
-            foreach ((char character, int count) in characterCounts.TakeLast(actualCount))
+            foreach ((char character, int count) in 
+                Context.SearchStatistics.GetLeastUsedCharacters(UsedCharactersCount))
             {
                 Console.WriteLine($"  {character}: {count}");
             }
