@@ -12,9 +12,9 @@ namespace SuperSearcherConsole.States
     public class Statistics : State
     {
         /// <summary>
-        /// The number of characters to show in the most/least used characters list.
+        /// The number of items to show in statistic lists.
         /// </summary>
-        private const int UsedCharactersCount = 3;
+        private const int MaxItemsShown = 3;
 
         /// <summary>
         /// Adds commands.
@@ -40,10 +40,19 @@ namespace SuperSearcherConsole.States
                 $"Gennemsnitslængde: {Context.SearchStatistics.AverageLength}" + Environment.NewLine
             );
 
+            Console.WriteLine("Seneste søgninger:");
+
+            int itemNumber = 1;
+            foreach (string search in Context.SearchStatistics.GetLatestSearches(MaxItemsShown))
+            {
+                Console.WriteLine($"  {itemNumber++}. {search}");
+            }
+
+            Console.WriteLine();
             Console.WriteLine($"Mest brugte tegn:");
 
-            foreach ((char character, int count) in 
-                Context.SearchStatistics.GetMostUsedCharacters(UsedCharactersCount))
+            foreach ((char character, int count) in
+                Context.SearchStatistics.GetMostUsedCharacters(MaxItemsShown))
             {
                 Console.WriteLine($"  {character}: {count}");
             }
@@ -51,8 +60,8 @@ namespace SuperSearcherConsole.States
             Console.WriteLine();
             Console.WriteLine($"Mindst brugte tegn:");
 
-            foreach ((char character, int count) in 
-                Context.SearchStatistics.GetLeastUsedCharacters(UsedCharactersCount))
+            foreach ((char character, int count) in
+                Context.SearchStatistics.GetLeastUsedCharacters(MaxItemsShown))
             {
                 Console.WriteLine($"  {character}: {count}");
             }

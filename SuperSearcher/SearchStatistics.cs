@@ -172,5 +172,15 @@ namespace SuperSearcher
                     orderby entry.Value ascending
                     select entry).Take(maxCharacters).ToList();
         }
+
+        /// <summary>
+        /// Returns a list of the latest searches made.
+        /// </summary>
+        /// <param name="maxSearches">The maximum number of searches to return.</param>
+        /// <returns>A list of the latest searches.</returns>
+        public List<string> GetLatestSearches(int maxSearches)
+        {
+            return _searches.TakeLast(maxSearches).Reverse().ToList();
+        }
     }
 }
