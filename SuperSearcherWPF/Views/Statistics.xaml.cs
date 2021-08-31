@@ -18,7 +18,7 @@ namespace SuperSearcherWPF.Views
     /// <summary>
     /// Interaction logic for Statistics.xaml.
     /// </summary>
-    public partial class Statistics : ScrollViewer
+    public partial class Statistics : Grid
     {
         public Statistics()
         {
