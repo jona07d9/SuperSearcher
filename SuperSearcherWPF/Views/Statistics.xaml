@@ -22,9 +22,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Style="{StaticResource Title}">Statistik</Label>
@@ -34,41 +31,44 @@
         <Label Grid.Row="3" Content="{Binding ShortestSearch}" ContentStringFormat="Korteste søgning: {0}"/>
         <Label Grid.Row="4" Content="{Binding AverageSearchLength}" ContentStringFormat="Gennemsnitslængde: {0}"/>
 
-        <Label Grid.Row="5">Seneste søgninger:</Label>
-        <ItemsControl Grid.Row="6" ItemsSource="{Binding LatestSearches}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        
-        <Label Grid.Row="7">Mest brugte tegn:</Label>
-        <ItemsControl Grid.Row="8" ItemsSource="{Binding MostUsedCharacters}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Label>
-                        <TextBlock>
+        <GroupBox Grid.Row="5" Header="Seneste søgninger">
+            <ItemsControl ItemsSource="{Binding LatestSearches}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+
+        <GroupBox Grid.Row="6" Header="Mest brugte tegn">
+            <ItemsControl ItemsSource="{Binding MostUsedCharacters}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label>
+                            <TextBlock>
                             <Run Text="{Binding Key, StringFormat='{}{0}:', Mode=OneWay}"/>
                             <Run Text="{Binding Value, StringFormat='{}{0}', Mode=OneWay}"/>
-                        </TextBlock>
-                    </Label>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        
-        <Label Grid.Row="9">Mindst brugte tegn:</Label>
-        <ItemsControl Grid.Row="10" ItemsSource="{Binding LeastUsedCharacters}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Label>
-                        <TextBlock>
+                            </TextBlock>
+                        </Label>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+
+        <GroupBox Grid.Row="7" Header="Mindst brugte tegn">
+            <ItemsControl ItemsSource="{Binding LeastUsedCharacters}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Label>
+                            <TextBlock>
                             <Run Text="{Binding Key, StringFormat='{}{0}:', Mode=OneWay}"/>
                             <Run Text="{Binding Value, StringFormat='{}{0}', Mode=OneWay}"/>
-                        </TextBlock>
-                    </Label>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                            </TextBlock>
+                        </Label>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
     </Grid>
 </ScrollViewer>
