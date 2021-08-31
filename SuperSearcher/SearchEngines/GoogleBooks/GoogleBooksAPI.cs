@@ -48,10 +48,10 @@ namespace SuperSearcher.SearchEngines.GoogleBooks
         public async Task<SearchEngineResults> Search(string searchText, int maxResults)
         {
             Stream stream = await _httpClient.GetStreamAsync(RequestUri + searchText);
-            GoogleBooksResults results = 
+            GoogleBooksResults results =
                 await JsonSerializer.DeserializeAsync<GoogleBooksResults>(stream);
 
-            SearchEngineResults searchEngineResults = 
+            SearchEngineResults searchEngineResults =
                 new() { Identifier = ResultsIdentifier };
             foreach (GoogleBooksItem item in results.Items)
             {
