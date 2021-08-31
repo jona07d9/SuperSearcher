@@ -14,6 +14,11 @@ namespace SuperSearcherWPF.ViewModels
     public class StatisticsViewModel : ViewModel
     {
         /// <summary>
+        /// The maximum number of items shown in statistics lists.
+        /// </summary>
+        private const int MaxItemsShown = 3;
+
+        /// <summary>
         /// The total number of searches that have been done.
         /// </summary>
         private int _totalSearches;
@@ -29,6 +34,10 @@ namespace SuperSearcherWPF.ViewModels
         /// The average length of all searches.
         /// </summary>
         private int _averageLength;
+        /// <summary>
+        /// The latest searches made.
+        /// </summary>
+        private List<string> _latestSearches = new();
         /// <summary>
         /// The most used characters and how many times they were used.
         /// </summary>
@@ -53,6 +62,7 @@ namespace SuperSearcherWPF.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// The longest text that was searched for.
         /// </summary>
@@ -68,6 +78,7 @@ namespace SuperSearcherWPF.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// The shortest text that was searched for.
         /// </summary>
@@ -83,6 +94,7 @@ namespace SuperSearcherWPF.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// The average length of all searches.
         /// </summary>
@@ -98,6 +110,23 @@ namespace SuperSearcherWPF.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// The latest searches made.
+        /// </summary>
+        public List<string> LatestSearches
+        {
+            get => _latestSearches;
+            set
+            {
+                if (value != _latestSearches)
+                {
+                    _latestSearches = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         /// <summary>
         /// The most used characters and how many times they were used.
         /// </summary>
@@ -113,6 +142,7 @@ namespace SuperSearcherWPF.ViewModels
                 }
             }
         }
+
         /// <summary>
         /// The least used characters and how many times they were used.
         /// </summary>
@@ -138,8 +168,9 @@ namespace SuperSearcherWPF.ViewModels
             LongestSearch = _context.SearchStatistics.LongestSearch;
             ShortestSearch = _context.SearchStatistics.ShortestSearch;
             AverageSearchLength = _context.SearchStatistics.AverageLength;
-            MostUsedCharacters = _context.SearchStatistics.GetMostUsedCharacters(3);
-            LeastUsedCharacters = _context.SearchStatistics.GetLeastUsedCharacters(3);
+            LatestSearches = _context.SearchStatistics.GetLatestSearches(MaxItemsShown);
+            MostUsedCharacters = _context.SearchStatistics.GetMostUsedCharacters(MaxItemsShown);
+            LeastUsedCharacters = _context.SearchStatistics.GetLeastUsedCharacters(MaxItemsShown);
         }
 
         /// <summary>

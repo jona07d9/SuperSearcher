@@ -12,7 +12,7 @@ namespace SuperSearcherConsole.States
     public class Statistics : State
     {
         /// <summary>
-        /// The number of items to show in statistic lists.
+        /// The maximum number of items to show in statistic lists.
         /// </summary>
         private const int MaxItemsShown = 3;
 
